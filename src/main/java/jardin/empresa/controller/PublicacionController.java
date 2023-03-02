@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/publicacion")
 public class PublicacionController {
@@ -15,23 +17,23 @@ public class PublicacionController {
     private PublicacionService publicacionService;
 
     @PostMapping()
-    public ResponseEntity<PublicacionDTO> save(@RequestBody PublicacionDTO publicacionDTO) {
+    public ResponseEntity<PublicacionDTO> save(@Valid @RequestBody PublicacionDTO publicacionDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(publicacionService.save(publicacionDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PublicacionDTO>get(@PathVariable Long id){
+    public ResponseEntity<PublicacionDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(publicacionService.get(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PublicacionDTO>delete(@PathVariable Long id){
+    public ResponseEntity<PublicacionDTO>delete(@Valid @PathVariable Long id){
         publicacionService.delete(id);
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PublicacionDTO>put(@PathVariable Long id, @RequestBody PublicacionDTO publicacionDTO){
+    public ResponseEntity<PublicacionDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody PublicacionDTO publicacionDTO){
         return ResponseEntity.status(HttpStatus.OK).body(publicacionService.put(id, publicacionDTO));
     }
 

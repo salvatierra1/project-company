@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/empresa")
 public class EmpresaController {
@@ -15,23 +17,23 @@ public class EmpresaController {
     private EmpresaService empresaService;
 
     @PostMapping()
-    public ResponseEntity<EmpresaDTO>save(@RequestBody EmpresaDTO empresaDTO) {
+    public ResponseEntity<EmpresaDTO>save(@Valid  @RequestBody EmpresaDTO empresaDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(empresaService.save(empresaDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmpresaDTO>get(@PathVariable Long id){
+    public ResponseEntity<EmpresaDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(empresaService.get(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<EmpresaDTO>delete(@PathVariable Long id){
+    public ResponseEntity<EmpresaDTO>delete(@Valid @PathVariable Long id){
         empresaService.delete(id);
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmpresaDTO>put(@PathVariable Long id, @RequestBody EmpresaDTO empresaDTO){
+    public ResponseEntity<EmpresaDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody EmpresaDTO empresaDTO){
         return ResponseEntity.status(HttpStatus.OK).body(empresaService.put(id, empresaDTO));
     }
 
