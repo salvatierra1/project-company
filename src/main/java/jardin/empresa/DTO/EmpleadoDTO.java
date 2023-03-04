@@ -9,19 +9,19 @@ public class EmpleadoDTO {
 
     private Long id;
 
-    @NotBlank(message = "Name no puede estar en blanco")
+    @NotBlank(message = "name es obligatorio")
     private String name;
 
-    @NotBlank(message = "apellido no puede estar en blanco")
+    @NotBlank(message = "apellido es obligatorio")
     private String apellido;
 
-    @NotBlank(message = "titulo no puede estar en blanco")
+    @NotBlank(message = "titulo es obligatorio")
     private String titulo;
 
-    @NotBlank(message = "biografia no puede estar en blanco")
+    @NotBlank(message = "biografia es obligatorio")
     private String biografia;
 
-    @NotBlank(message = "imagen no puede estar en blanco")
+    @NotBlank(message = "imagen es obligatorio")
     private String imagen;
 
 }

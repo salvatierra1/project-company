@@ -1,6 +1,7 @@
 package jardin.empresa.service.impl;
 
 import jardin.empresa.DTO.EmpresaDTO;
+import jardin.empresa.exception.NotFoundException;
 import jardin.empresa.mapper.EmpresaMapper;
 import jardin.empresa.model.Empresa;
 import jardin.empresa.repository.EmpresaRepository;
@@ -30,12 +31,19 @@ public class EmpresaServiceImpl implements EmpresaService {
     @Override
     public EmpresaDTO get(Long id) {
         Optional<Empresa> empresa = empresaRepository.findById(id);
+        if(!empresa.isPresent()){
+            throw new NotFoundException("No existe la empresa: " + id);
+        }
         EmpresaDTO dto = empresaMapper.entityToDto(empresa.get());
         return dto;
     }
 
     @Override
     public void delete(Long id) {
+        Optional<Empresa> empresa = empresaRepository.findById(id);
+        if(!empresa.isPresent()){
+            throw new NotFoundException("No existe la empresa: " + id);
+        }
         empresaRepository.deleteById(id);
     }
 
@@ -46,4 +54,5 @@ public class EmpresaServiceImpl implements EmpresaService {
         EmpresaDTO dto = empresaMapper.entityToDto(saved);
         return dto;
     }
+
 }

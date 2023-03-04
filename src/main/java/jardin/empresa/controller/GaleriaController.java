@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/galeria")
@@ -35,6 +36,11 @@ public class GaleriaController {
     @PutMapping("/{id}")
     public ResponseEntity<GaleriaDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody GaleriaDTO galeriaDTO){
         return ResponseEntity.status(HttpStatus.OK).body(galeriaService.put(id, galeriaDTO));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<GaleriaDTO>> getPaginacion(@RequestParam(defaultValue = "0", required = false) String page){
+        return ResponseEntity.ok(galeriaService.getPaginacion(Integer.valueOf(page)));
     }
 
 }

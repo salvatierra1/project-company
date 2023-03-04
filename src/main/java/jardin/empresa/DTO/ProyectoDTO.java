@@ -9,13 +9,17 @@ public class ProyectoDTO {
 
     private Long id;
 
-    @NotBlank(message = "name no puede estar en blanco")
+    @NotBlank(message = "name es obligatorio")
     private String name;
 
-    @NotBlank(message = "imagen no puede estar en blanco")
+    @NotBlank(message = "imagen es obligatorio")
     private String imagen;
 
-    @NotBlank(message = "biografia no puede estar en blanco")
+    @NotBlank(message = "biografia es obligatorio")
     private String biografia;
+
+    private String mision;
+
+    private String vision;
 
 }

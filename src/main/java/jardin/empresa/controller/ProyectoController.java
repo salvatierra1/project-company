@@ -1,6 +1,7 @@
 package jardin.empresa.controller;
 
 import jardin.empresa.DTO.ProyectoDTO;
+import jardin.empresa.DTO.PublicacionDTO;
 import jardin.empresa.service.ProyectoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/proyecto")
@@ -35,6 +37,12 @@ public class ProyectoController {
     @PutMapping("/{id}")
     public ResponseEntity<ProyectoDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody ProyectoDTO proyectoDTO){
         return ResponseEntity.status(HttpStatus.OK).body(proyectoService.put(id, proyectoDTO));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProyectoDTO>>getList(){
+        List<ProyectoDTO> listProyecto = proyectoService.getList();
+        return ResponseEntity.status(HttpStatus.OK).body(listProyecto);
     }
 
 }

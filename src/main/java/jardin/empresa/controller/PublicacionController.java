@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/publicacion")
@@ -35,6 +36,18 @@ public class PublicacionController {
     @PutMapping("/{id}")
     public ResponseEntity<PublicacionDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody PublicacionDTO publicacionDTO){
         return ResponseEntity.status(HttpStatus.OK).body(publicacionService.put(id, publicacionDTO));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<PublicacionDTO>>getList(){
+        List<PublicacionDTO> listPublicacion = publicacionService.getList();
+        return ResponseEntity.status(HttpStatus.OK).body(listPublicacion);
+    }
+
+    @GetMapping("/destacado")
+    public ResponseEntity<List<PublicacionDTO>>getListDestacado(){
+        List<PublicacionDTO> listPublicacion = publicacionService.getListDestacado();
+        return ResponseEntity.status(HttpStatus.OK).body(listPublicacion);
     }
 
 }

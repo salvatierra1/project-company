@@ -3,6 +3,7 @@ package jardin.empresa.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@NoArgsConstructor
 @SQLDelete(sql = "UPDATE galeria SET deleted = true WHERE id=?")
 @Where(clause = "deleted = false")
 public class Galeria {

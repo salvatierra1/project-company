@@ -9,24 +9,30 @@ public class EmpresaDTO {
 
     private Long id;
 
-    @NotBlank(message = "Name no puede estar en blanco")
+    @NotBlank(message = "name es obligatorio")
     private String name;
 
-    @NotBlank(message = "ubicacion no puede estar en blanco")
+    @NotBlank(message = "ubicacion es obligatorio")
     private String ubicacion;
 
-    @NotBlank(message = "resolucion no puede estar en blanco")
+    @NotBlank(message = "resolucion es obligatorio")
     private String resolucion;
 
-    @NotBlank(message = "biografia no puede estar en blanco")
+    @NotBlank(message = "biografia es obligatorio")
     private String biografia;
 
-    @NotBlank(message = "imagen no puede estar en blanco")
+    @NotBlank(message = "biografia es obligatorio")
+    private String horarios;
+
+    @NotBlank(message = "biografia es obligatorio")
+    private String telefono;
+
+    @NotBlank(message = "biografia es obligatorio")
+    private String email;
+
+    @NotBlank(message = "imagen es obligatorio")
     private String imagen;
 
-    @NotBlank(message = "logoRedes no puede estar en blanco")
-    private String logoRedes;
-
-    @NotBlank(message = "linkRedes no puede estar en blanco")
+    @NotBlank(message = "linkRedes es obligatorio")
     private String linkRedes;
 }

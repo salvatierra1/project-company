@@ -9,12 +9,12 @@ public class GaleriaDTO {
 
     private Long id;
 
-    @NotBlank(message = "name no puede estar en blanco")
+    @NotBlank(message = "name es obligatorio")
     private String name;
 
-    @NotBlank(message = "imagen no puede estar en blanco")
+    @NotBlank(message = "imagen es obligatorio")
     private String imagen;
 
-    @NotBlank(message = "alternativo no puede estar en blanco")
+    @NotBlank(message = "alternativo es obligatorio")
     private String alternativo;
 }

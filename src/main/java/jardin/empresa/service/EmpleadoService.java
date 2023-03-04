@@ -8,4 +8,5 @@ public interface EmpleadoService {
     EmpleadoDTO get(Long id);
     void delete(Long id);
     EmpleadoDTO put(Long id, EmpleadoDTO empleadoDTO);
+
 }
