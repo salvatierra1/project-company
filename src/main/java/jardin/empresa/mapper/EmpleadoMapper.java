@@ -15,7 +15,6 @@ public class EmpleadoMapper {
     @Autowired
     private EmpleadoRepository empleadoRepository;
 
-
     public Empleado dtoToEntity(EmpleadoDTO empleadoDTO) {
         Empleado empleado = new Empleado();
         empleado.setName(empleadoDTO.getName());
@@ -51,4 +50,5 @@ public class EmpleadoMapper {
         empleado.get().setImagen(empleadoDTO.getImagen());
         return empleado.get();
     }
+
 }
