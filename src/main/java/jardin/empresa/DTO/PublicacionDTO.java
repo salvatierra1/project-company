@@ -12,10 +12,6 @@ public class PublicacionDTO {
 
     private Long id;
 
-    @NotBlank(message = "name es obligatorio")
-    private String name;
-
-
     @NotBlank(message = "biografia es obligatorio")
     private String biografia;
 

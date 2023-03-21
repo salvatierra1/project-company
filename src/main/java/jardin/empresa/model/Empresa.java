@@ -37,7 +37,15 @@ public class Empresa {
 
     private String email;
 
-    private String linkRedes;
+    private String linkIg;
+
+    private String linkFb;
+
+    private String linkLk;
+
+    private String mision;
+
+    private String vision;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")

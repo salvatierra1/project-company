@@ -23,8 +23,6 @@ public class ProyectoMapper {
         proyecto.setName(proyectoDTO.getName());
         proyecto.setBiografia(proyectoDTO.getBiografia());
         proyecto.setImagen(proyectoDTO.getImagen());
-        proyecto.setMision(proyectoDTO.getMision());
-        proyecto.setVision(proyectoDTO.getVision());
         return proyecto;
     }
 
@@ -34,8 +32,6 @@ public class ProyectoMapper {
         proyectoDTO.setName(saved.getName());
         proyectoDTO.setBiografia(saved.getBiografia());
         proyectoDTO.setImagen(saved.getImagen());
-        proyectoDTO.setMision(saved.getMision());
-        proyectoDTO.setVision(saved.getVision());
         return proyectoDTO;
     }
 
@@ -47,8 +43,6 @@ public class ProyectoMapper {
         proyecto.get().setName(proyectoDTO.getName());
         proyecto.get().setBiografia(proyectoDTO.getBiografia());
         proyecto.get().setImagen(proyectoDTO.getImagen());
-        proyecto.get().setMision(proyectoDTO.getMision());
-        proyecto.get().setVision(proyectoDTO.getVision());
         return proyecto.get();
     }
 

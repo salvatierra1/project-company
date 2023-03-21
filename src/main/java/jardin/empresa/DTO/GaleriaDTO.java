@@ -10,7 +10,7 @@ public class GaleriaDTO {
     private Long id;
 
     @NotBlank(message = "name es obligatorio")
-    private String name;
+    private String descripcion;
 
     @NotBlank(message = "imagen es obligatorio")
     private String imagen;

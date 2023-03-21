@@ -25,7 +25,11 @@ public class EmpresaMapper {
         empresa.setTelefono(empresaDTO.getTelefono());
         empresa.setEmail(empresaDTO.getEmail());
         empresa.setImagen(empresaDTO.getImagen());
-        empresa.setLinkRedes(empresaDTO.getLinkRedes());
+        empresa.setLinkIg(empresaDTO.getLinkIg());
+        empresa.setLinkFb(empresaDTO.getLinkFb());
+        empresa.setLinkLk(empresaDTO.getLinkLk());
+        empresa.setMision(empresaDTO.getMision());
+        empresa.setVision(empresaDTO.getVision());
         return empresa;
     }
     public EmpresaDTO entityToDto(Empresa saved) {
@@ -39,7 +43,11 @@ public class EmpresaMapper {
         dto.setTelefono(saved.getTelefono());
         dto.setEmail(saved.getEmail());
         dto.setImagen(saved.getImagen());
-        dto.setLinkRedes(saved.getLinkRedes());
+        dto.setLinkIg(saved.getLinkIg());
+        dto.setLinkFb(saved.getLinkFb());
+        dto.setLinkLk(saved.getLinkLk());
+        dto.setMision(saved.getMision());
+        dto.setVision(saved.getVision());
         return dto;
     }
 
@@ -56,7 +64,11 @@ public class EmpresaMapper {
         empresa.get().setTelefono(empresaDTO.getTelefono());
         empresa.get().setEmail(empresaDTO.getEmail());
         empresa.get().setImagen(empresaDTO.getImagen());
-        empresa.get().setLinkRedes(empresaDTO.getLinkRedes());
+        empresa.get().setLinkIg(empresaDTO.getLinkIg());
+        empresa.get().setLinkFb(empresaDTO.getLinkFb());
+        empresa.get().setLinkLk(empresaDTO.getLinkLk());
+        empresa.get().setMision(empresaDTO.getMision());
+        empresa.get().setVision(empresaDTO.getVision());
         return empresa.get();
     }
 

@@ -33,6 +33,14 @@ public class EmpresaDTO {
     @NotBlank(message = "imagen es obligatorio")
     private String imagen;
 
-    @NotBlank(message = "linkRedes es obligatorio")
-    private String linkRedes;
+    private String linkIg;
+
+    private String linkFb;
+
+    private String linkLk;
+
+    private String mision;
+
+    private String vision;
+
 }

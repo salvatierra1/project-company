@@ -18,8 +18,4 @@ public class ProyectoDTO {
     @NotBlank(message = "biografia es obligatorio")
     private String biografia;
 
-    private String mision;
-
-    private String vision;
-
 }

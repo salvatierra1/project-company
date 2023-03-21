@@ -19,7 +19,6 @@ public class PublicacionMapper {
 
     public Publicacion dtoToEntity(PublicacionDTO publicacionDTO) {
         Publicacion publicacion = new Publicacion();
-        publicacion.setName(publicacionDTO.getName());
         publicacion.setBiografia(publicacionDTO.getBiografia());
         publicacion.setImagen(publicacionDTO.getImagen());
         publicacion.setDestacado(publicacionDTO.isDestacado());
@@ -29,7 +28,6 @@ public class PublicacionMapper {
     public PublicacionDTO entityToDto(Publicacion saved) {
         PublicacionDTO  publicacionDTO = new PublicacionDTO();
         publicacionDTO.setId(saved.getId());
-        publicacionDTO.setName(saved.getName());
         publicacionDTO.setBiografia(saved.getBiografia());
         publicacionDTO.setImagen(saved.getImagen());
         publicacionDTO.setDestacado(saved.isDestacado());
@@ -42,7 +40,6 @@ public class PublicacionMapper {
         if(!publicacion.isPresent()){
             throw new NotFoundException("No existe la publicacion: " + id);
         }
-        publicacion.get().setName(publicacionDTO.getName());
         publicacion.get().setBiografia(publicacionDTO.getBiografia());
         publicacion.get().setImagen(publicacionDTO.getImagen());
         publicacion.get().setDestacado(publicacionDTO.isDestacado());

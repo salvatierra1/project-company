@@ -19,7 +19,7 @@ public class GaleriaMapper {
 
     public Galeria dtoToEntity(GaleriaDTO galeriaDTO) {
         Galeria galeria = new Galeria();
-        galeria.setName(galeriaDTO.getName());
+        galeria.setName(galeriaDTO.getDescripcion());
         galeria.setImagen(galeriaDTO.getImagen());
         galeria.setAlternativo(galeriaDTO.getAlternativo());
         return galeria;
@@ -28,7 +28,7 @@ public class GaleriaMapper {
     public GaleriaDTO entityToDto(Galeria saved) {
         GaleriaDTO galeriaDTO = new GaleriaDTO();
         galeriaDTO.setId(saved.getId());
-        galeriaDTO.setName(saved.getName());
+        galeriaDTO.setDescripcion(saved.getName());
         galeriaDTO.setImagen(saved.getImagen());
         galeriaDTO.setAlternativo(saved.getAlternativo());
         return galeriaDTO;
@@ -39,7 +39,7 @@ public class GaleriaMapper {
         if(!galeria.isPresent()){
             throw new NotFoundException("No existe galeria: " + id);
         }
-        galeria.get().setName(galeriaDTO.getName());
+        galeria.get().setName(galeriaDTO.getDescripcion());
         galeria.get().setImagen(galeriaDTO.getImagen());
         galeria.get().setAlternativo(galeriaDTO.getAlternativo());
         return galeria.get();
