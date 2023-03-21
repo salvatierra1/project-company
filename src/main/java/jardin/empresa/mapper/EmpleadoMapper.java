@@ -36,7 +36,6 @@ public class EmpleadoMapper {
         empleadoDTO.setImagen(saved.getImagen());
         return empleadoDTO;
     }
-
     public Empleado updateEntity(Long id, EmpleadoDTO empleadoDTO) {
         Optional<Empleado> empleado = empleadoRepository.findById(id);
         if(!empleado.isPresent()){
@@ -50,5 +49,4 @@ public class EmpleadoMapper {
         empleado.get().setImagen(empleadoDTO.getImagen());
         return empleado.get();
     }
-
 }
