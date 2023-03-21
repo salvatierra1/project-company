@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/empresa")
+@CrossOrigin(origins = "http://localhost:3000")
 public class EmpresaController {
 
     @Autowired
