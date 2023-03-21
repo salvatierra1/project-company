@@ -7,7 +7,9 @@ import jardin.empresa.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class EmpleadoMapper {
@@ -49,4 +51,9 @@ public class EmpleadoMapper {
         empleado.get().setImagen(empleadoDTO.getImagen());
         return empleado.get();
     }
+
+    public List<EmpleadoDTO> listEntityDto(List<Empleado> listEmpleados) {
+        return  listEmpleados.stream().map(p -> entityToDto(p)).collect(Collectors.toList());
+    }
+    
 }

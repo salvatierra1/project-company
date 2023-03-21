@@ -7,7 +7,9 @@ import jardin.empresa.repository.EmpresaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class EmpresaMapper {
@@ -72,4 +74,8 @@ public class EmpresaMapper {
         return empresa.get();
     }
 
+    public List<EmpresaDTO> listEntityDto(List<Empresa> listEmpresa) {
+        return  listEmpresa.stream().map(p -> entityToDto(p)).collect(Collectors.toList());
+
+    }
 }

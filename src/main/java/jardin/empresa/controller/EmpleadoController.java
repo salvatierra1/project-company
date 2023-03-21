@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/empleado")
@@ -25,6 +26,12 @@ public class EmpleadoController {
     @GetMapping("/{id}")
     public ResponseEntity<EmpleadoDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(empleadoService.get(id));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<EmpleadoDTO>>getList(){
+        List<EmpleadoDTO> listEmpleados = empleadoService.getList();
+        return ResponseEntity.status(HttpStatus.OK).body(listEmpleados);
     }
 
     @DeleteMapping("/{id}")

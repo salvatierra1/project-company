@@ -9,6 +9,7 @@ import jardin.empresa.service.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -52,6 +53,13 @@ public class EmpresaServiceImpl implements EmpresaService {
         Empresa empresa = empresaMapper.updateEntity(id, empresaDTO);
         Empresa saved = empresaRepository.save(empresa);
         EmpresaDTO dto = empresaMapper.entityToDto(saved);
+        return dto;
+    }
+
+    @Override
+    public List<EmpresaDTO> getList() {
+        List<Empresa> listEmpresa = empresaRepository.findAll();
+        List<EmpresaDTO> dto  = empresaMapper.listEntityDto(listEmpresa);
         return dto;
     }
 
