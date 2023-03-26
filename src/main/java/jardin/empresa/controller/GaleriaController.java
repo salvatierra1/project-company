@@ -1,14 +1,17 @@
 package jardin.empresa.controller;
 
 import jardin.empresa.DTO.GaleriaDTO;
+import jardin.empresa.model.Galeria;
 import jardin.empresa.service.GaleriaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/galeria")
@@ -38,10 +41,19 @@ public class GaleriaController {
     public ResponseEntity<GaleriaDTO>put(@Valid @PathVariable Long id,@Valid @RequestBody GaleriaDTO galeriaDTO){
         return ResponseEntity.status(HttpStatus.OK).body(galeriaService.put(id, galeriaDTO));
     }
-
-    @GetMapping()
-    public ResponseEntity<List<GaleriaDTO>> getPaginacion(@RequestParam(defaultValue = "0", required = false) String page){
-        return ResponseEntity.ok(galeriaService.getPaginacion(Integer.valueOf(page)));
+    @GetMapping("/page")
+    public ResponseEntity<Page<Galeria>> paginas(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String order,
+            @RequestParam(defaultValue = "true") boolean asc
+    ){
+        Page<Galeria> galeria = galeriaService.paginas(
+                PageRequest.of(page, size, Sort.by(order)));
+        if(!asc)
+            galeria = galeriaService.paginas(
+                    PageRequest.of(page, size, Sort.by(order).descending()));
+        return new ResponseEntity(galeria, HttpStatus.OK);
     }
 
 }

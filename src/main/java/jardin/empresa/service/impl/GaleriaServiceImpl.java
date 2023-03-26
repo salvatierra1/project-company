@@ -7,9 +7,9 @@ import jardin.empresa.model.Galeria;
 import jardin.empresa.repository.GaleriaRepository;
 import jardin.empresa.service.GaleriaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,7 +33,7 @@ public class GaleriaServiceImpl implements GaleriaService {
     @Override
     public GaleriaDTO get(Long id) {
         Optional<Galeria> galeria = galeriaRepository.findById(id);
-        if(!galeria.isPresent()){
+        if (!galeria.isPresent()) {
             throw new NotFoundException("No existe galeria: " + id);
         }
         GaleriaDTO dto = galeriaMapper.entityToDto(galeria.get());
@@ -43,7 +43,7 @@ public class GaleriaServiceImpl implements GaleriaService {
     @Override
     public void delete(Long id) {
         Optional<Galeria> galeria = galeriaRepository.findById(id);
-        if(!galeria.isPresent()){
+        if (!galeria.isPresent()) {
             throw new NotFoundException("No existe galeria: " + id);
         }
         galeriaRepository.deleteById(id);
@@ -56,13 +56,9 @@ public class GaleriaServiceImpl implements GaleriaService {
         GaleriaDTO dto = galeriaMapper.entityToDto(saved);
         return dto;
     }
-
     @Override
-    public List<GaleriaDTO> getPaginacion(Integer page) {
-        List<Galeria> listGaleria = galeriaRepository.findAll(PageRequest.of(page, SIZE_TEN)).getContent();
-        List<GaleriaDTO> dtoList = galeriaMapper.listEntityDto(listGaleria);
-        return dtoList;
+    public Page<Galeria> paginas(Pageable pageable) {
+        return galeriaRepository.findAll(pageable);
     }
-
 
 }
