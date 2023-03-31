@@ -17,25 +17,25 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
     @PostMapping()
-    public ResponseEntity<ProjectDTO> save(@Valid @RequestBody ProjectDTO projectDTO) {
+    public ResponseEntity<ProjectDTO>create(@Valid @RequestBody ProjectDTO projectDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(projectService.save(projectDTO));
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProjectDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(projectService.get(id));
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<ProjectDTO>>getAll(){
+        List<ProjectDTO> list = projectService.getList();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjectDTO>update(@Valid @PathVariable Long id, @Valid @RequestBody ProjectDTO projectDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(projectService.put(id, projectDTO));
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<ProjectDTO>delete(@Valid @PathVariable Long id){
         projectService.delete(id);
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<ProjectDTO>put(@Valid @PathVariable Long id, @Valid @RequestBody ProjectDTO projectDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(projectService.put(id, projectDTO));
-    }
-    @GetMapping("/all")
-    public ResponseEntity<List<ProjectDTO>>getList(){
-        List<ProjectDTO> list = projectService.getList();
-        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 }

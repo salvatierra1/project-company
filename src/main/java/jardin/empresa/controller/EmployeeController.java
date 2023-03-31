@@ -17,7 +17,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
     @PostMapping()
-    public ResponseEntity<EmployeeDTO> save(@Valid @RequestBody EmployeeDTO employeeDTO) {
+    public ResponseEntity<EmployeeDTO>create(@Valid @RequestBody EmployeeDTO employeeDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeService.save(employeeDTO));
     }
     @GetMapping("/{id}")
@@ -26,18 +26,17 @@ public class EmployeeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<EmployeeDTO>>getList(){
+    public ResponseEntity<List<EmployeeDTO>>findAll(){
         List<EmployeeDTO> list = employeeService.getList();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
-
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeDTO>update(@Valid @PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(employeeService.put(id, employeeDTO));
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<EmployeeDTO>delete(@Valid @PathVariable Long id){
         employeeService.delete(id);
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO>put(@Valid @PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(employeeService.put(id, employeeDTO));
     }
 }

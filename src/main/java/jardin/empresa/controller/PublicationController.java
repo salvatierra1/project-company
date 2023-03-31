@@ -17,30 +17,30 @@ public class PublicationController {
     @Autowired
     private PublicationService publicationService;
     @PostMapping()
-    public ResponseEntity<PublicationDTO> save(@Valid @RequestBody PublicationDTO publicationDTO) {
+    public ResponseEntity<PublicationDTO>create(@Valid @RequestBody PublicationDTO publicationDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(publicationService.save(publicationDTO));
     }
     @GetMapping("/{id}")
     public ResponseEntity<PublicationDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(publicationService.get(id));
     }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<PublicationDTO>delete(@Valid @PathVariable Long id){
-        publicationService.delete(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<PublicationDTO>put(@Valid @PathVariable Long id, @Valid @RequestBody PublicationDTO publicationDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(publicationService.put(id, publicationDTO));
-    }
     @GetMapping("/all")
-    public ResponseEntity<List<PublicationDTO>>getList(){
+    public ResponseEntity<List<PublicationDTO>>getAll(){
         List<PublicationDTO> list = publicationService.getList();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
     @GetMapping("/relevant")
-    public ResponseEntity<List<PublicationDTO>> getListRelevant(){
+    public ResponseEntity<List<PublicationDTO>> getAllRelevant(){
         List<PublicationDTO> list = publicationService.getListRelevant();
         return ResponseEntity.status(HttpStatus.OK).body(list);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<PublicationDTO>update(@Valid @PathVariable Long id, @Valid @RequestBody PublicationDTO publicationDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(publicationService.put(id, publicationDTO));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<PublicationDTO>delete(@Valid @PathVariable Long id){
+        publicationService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

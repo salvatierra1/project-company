@@ -20,21 +20,12 @@ public class GalleryController {
     @Autowired
     private GalleryService galleryService;
     @PostMapping()
-    public ResponseEntity<GalleryDTO> save(@Valid @RequestBody GalleryDTO galleryDTO) {
+    public ResponseEntity<GalleryDTO>create(@Valid @RequestBody GalleryDTO galleryDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(galleryDTO));
     }
     @GetMapping("/{id}")
     public ResponseEntity<GalleryDTO>get(@Valid @PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(galleryService.get(id));
-    }
-    @DeleteMapping("/{id}")
-    public ResponseEntity<GalleryDTO>delete(@Valid @PathVariable Long id){
-        galleryService.delete(id);
-        return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<GalleryDTO>put(@Valid @PathVariable Long id, @Valid @RequestBody GalleryDTO galleryDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(galleryService.put(id, galleryDTO));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(
@@ -49,5 +40,14 @@ public class GalleryController {
             galleries = galleryService.page(
                     PageRequest.of(page, size, Sort.by(order).descending()));
         return new ResponseEntity(galleries, HttpStatus.OK);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<GalleryDTO>update(@Valid @PathVariable Long id, @Valid @RequestBody GalleryDTO galleryDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(galleryService.put(id, galleryDTO));
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<GalleryDTO>delete(@Valid @PathVariable Long id){
+        galleryService.delete(id);
+        return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
