@@ -1,7 +1,6 @@
 package jardin.empresa.auth.controller;
 
 
-import jardin.empresa.DTO.EmpleadoDTO;
 import jardin.empresa.auth.dto.AuthenticationRequest;
 import jardin.empresa.auth.dto.AuthenticationResponse;
 import jardin.empresa.auth.dto.UserDTO;
