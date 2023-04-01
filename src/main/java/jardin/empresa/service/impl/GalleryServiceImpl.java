@@ -1,7 +1,5 @@
 package jardin.empresa.service.impl;
 
-import jardin.empresa.DTO.GalleryDTO;
-import jardin.empresa.mapper.GalleryMapper;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.repository.GalleryRepository;
 import jardin.empresa.service.GalleryService;
@@ -10,48 +8,40 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import java.io.IOException;
+import java.util.Map;
 
 
 @Service
 public class GalleryServiceImpl implements GalleryService {
-
     @Autowired
     private GalleryRepository galleryRepository;
-    @Autowired
-    private GalleryMapper galleryMapper;
 
     private static final int SIZE_TEN = 10;
-
+    @Autowired
+    CloudinaryServiceImpl cloudinaryService;
     @Override
-    public GalleryDTO save(GalleryDTO galleryDTO) {
-        Gallery gallery = galleryMapper.dtoToEntity(galleryDTO);
-        Gallery saved = galleryRepository.save(gallery);
-        return galleryMapper.entityToDto(saved);
-    }
-
-    @Override
-    public GalleryDTO get(Long id) {
-        Gallery gallery = galleryRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return galleryMapper.entityToDto(gallery);
-    }
-
-    @Override
-    public void delete(Long id) {
-        Gallery gallery = galleryRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        galleryRepository.delete(gallery);
-    }
-    @Override
-    public GalleryDTO put(Long id, GalleryDTO galleryDTO) {
-        Gallery gallery = galleryMapper.updateEntity(id, galleryDTO);
-        Gallery saved = galleryRepository.save(gallery);
-        return galleryMapper.entityToDto(saved);
+    public Gallery save(MultipartFile multipartFile, String description, String Relevant) throws IOException {
+        Map result = cloudinaryService.upload(multipartFile);
+        Gallery gallery = new Gallery(
+                (String)result.get("original_filename"),
+                (String) result.get("url"),
+                (String) result.get("public_id"));
+        gallery.setDescription(description);
+        gallery.setRelevant(Relevant);
+        return galleryRepository.save(gallery);
     }
     @Override
     public Page<Gallery> page(Pageable pageable) {
         return galleryRepository.findAll(pageable);
     }
-
+    @Override
+    public void delete(Long id) throws IOException {
+        Gallery gallery = galleryRepository.findById(id).orElseThrow(()
+                -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Map result = cloudinaryService.delete(gallery.getImageId());
+        galleryRepository.delete(gallery);
+    }
 }

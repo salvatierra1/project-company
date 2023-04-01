@@ -1,8 +1,9 @@
 package jardin.empresa.controller;
 
-import jardin.empresa.DTO.GalleryDTO;
+import jardin.empresa.DTO.MessageDTO;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.service.GalleryService;
+import jardin.empresa.service.impl.CloudinaryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,8 +11,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/gallery")
@@ -19,13 +23,20 @@ import javax.validation.Valid;
 public class GalleryController {
     @Autowired
     private GalleryService galleryService;
+
+    @Autowired
+    private CloudinaryServiceImpl cloudinaryService;
+
     @PostMapping()
-    public ResponseEntity<GalleryDTO>create(@Valid @RequestBody GalleryDTO galleryDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(galleryDTO));
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<GalleryDTO>get(@Valid @PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.OK).body(galleryService.get(id));
+    public ResponseEntity<?>upload(
+            @RequestParam MultipartFile multipartFile,
+            @RequestParam String description,
+            @RequestParam String relevant) throws IOException {
+        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+        if(bi == null){
+           return  new ResponseEntity<>(new MessageDTO("invalid image"),HttpStatus.BAD_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(multipartFile, description, relevant));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(
@@ -39,14 +50,10 @@ public class GalleryController {
         if(!asc)
             galleries = galleryService.page(
                     PageRequest.of(page, size, Sort.by(order).descending()));
-        return new ResponseEntity(galleries, HttpStatus.OK);
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<GalleryDTO>update(@Valid @PathVariable Long id, @Valid @RequestBody GalleryDTO galleryDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(galleryService.put(id, galleryDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(galleries);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<GalleryDTO>delete(@Valid @PathVariable Long id){
+    public ResponseEntity<?>delete(@PathVariable Long id) throws IOException {
         galleryService.delete(id);
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
