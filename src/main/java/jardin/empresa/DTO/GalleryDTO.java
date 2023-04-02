@@ -7,7 +7,7 @@ public class GalleryDTO {
 
     private Long id;
 
-    private String description;
+    private String name;
 
     private String image;
 

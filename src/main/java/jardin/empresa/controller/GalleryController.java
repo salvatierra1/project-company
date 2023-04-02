@@ -41,7 +41,7 @@ public class GalleryController {
     public ResponseEntity<Page<Gallery>> page(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "description") String order,
+            @RequestParam(defaultValue = "name") String order,
             @RequestParam(defaultValue = "true") boolean asc
     ){
         Page<Gallery> galleries = galleryService.page(
