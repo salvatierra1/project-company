@@ -36,11 +36,13 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
     @Override
-    public File covert(MultipartFile multipartFile) throws IOException {
-        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-        FileOutputStream fo = new FileOutputStream(file);
-        fo.write(multipartFile.getBytes());
-        fo.close();
-        return file;
+    public File covert(MultipartFile file) throws IOException {
+            File convFile = new File(file.getOriginalFilename());
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+            return convFile;
     }
+
 }
