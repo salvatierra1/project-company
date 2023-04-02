@@ -23,16 +23,15 @@ public class GalleryServiceImpl implements GalleryService {
     @Autowired
     CloudinaryServiceImpl cloudinaryService;
     @Override
-    public Gallery save(MultipartFile multipartFile, String description, String Relevant) throws IOException {
+    public Gallery save(MultipartFile multipartFile) throws IOException {
         Map result = cloudinaryService.upload(multipartFile);
         Gallery gallery = new Gallery(
                 (String)result.get("original_filename"),
                 (String) result.get("url"),
                 (String) result.get("public_id"));
-        gallery.setDescription(description);
-        gallery.setRelevant(Relevant);
         return galleryRepository.save(gallery);
     }
+
     @Override
     public Page<Gallery> page(Pageable pageable) {
         return galleryRepository.findAll(pageable);
