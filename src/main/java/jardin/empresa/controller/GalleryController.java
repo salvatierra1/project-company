@@ -29,13 +29,15 @@ public class GalleryController {
 
     @PostMapping()
     public ResponseEntity<?>upload(
-            @RequestParam MultipartFile multipartFile
+            @RequestParam MultipartFile multipartFile,
+            @RequestParam String description,
+            @RequestParam String relevant
             ) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
         if(bi == null){
            return  new ResponseEntity<>(new MessageDTO("invalid image"),HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(multipartFile));
+        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(multipartFile, description, relevant));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(

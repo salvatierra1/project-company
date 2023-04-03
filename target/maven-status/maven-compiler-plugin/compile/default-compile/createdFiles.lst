@@ -39,7 +39,6 @@ jardin\empresa\service\CompanyService.class
 jardin\empresa\repository\ProjectRepository.class
 jardin\empresa\exception\NotFoundException.class
 jardin\empresa\service\impl\PublicationServiceImpl.class
-jardin\empresa\DTO\GalleryDTO.class
 jardin\empresa\repository\UserRepository.class
 jardin\empresa\auth\dto\UserDTO.class
 jardin\empresa\mapper\ProjectMapper.class
