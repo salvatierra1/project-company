@@ -14,16 +14,16 @@ public class Gallery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
     private String imageUrl;
+
     private String imageId;
 
     private String description;
 
-    private String relevant;
+    private String alternative;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime date_creation;
-
-
 }

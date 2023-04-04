@@ -36,10 +36,6 @@ public class GalleryController {
             @RequestPart Gallery gallery,
             @RequestPart MultipartFile multipartFile
             ) throws IOException {
-        BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-           return  new ResponseEntity<>(new MessageDTO("invalid image"),HttpStatus.BAD_REQUEST);
-        }
         return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(gallery, multipartFile));
     }
     @GetMapping("/page")
