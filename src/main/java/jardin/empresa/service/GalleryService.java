@@ -9,7 +9,7 @@ import java.io.IOException;
 
 
 public interface GalleryService {
-    Gallery save(MultipartFile multipartFile, String description, String relevant) throws IOException;
+    Gallery save(Gallery gallery, MultipartFile multipartFile) throws IOException;
     void delete(Long id) throws IOException;
     Page<Gallery> page(Pageable pageable);
 }

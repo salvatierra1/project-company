@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,17 +28,19 @@ public class GalleryController {
     @Autowired
     private CloudinaryServiceImpl cloudinaryService;
 
-    @PostMapping()
+    @PostMapping(
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
+            produces = {MediaType.APPLICATION_JSON_VALUE}
+    )
     public ResponseEntity<?>upload(
-            @RequestParam MultipartFile multipartFile,
-            @RequestParam String description,
-            @RequestParam String relevant
+            @RequestPart Gallery gallery,
+            @RequestPart MultipartFile multipartFile
             ) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
         if(bi == null){
            return  new ResponseEntity<>(new MessageDTO("invalid image"),HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(multipartFile, description, relevant));
+        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(gallery, multipartFile));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(

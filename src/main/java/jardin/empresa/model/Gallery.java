@@ -20,14 +20,10 @@ public class Gallery {
     private String description;
 
     private String relevant;
+
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDateTime date_creation;
 
-    public Gallery(String name, String imageUrl, String imageId) {
-        this.name = name;
-        this.imageUrl = imageUrl;
-        this.imageId = imageId;
-    }
 
 }

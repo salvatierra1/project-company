@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+
 
 @Service
 public class CloudinaryServiceImpl implements CloudinaryService {
@@ -32,10 +32,6 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     }
 
     @Override
-    public Map delete(String id) throws IOException {
-        return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
-    }
-    @Override
     public File covert(MultipartFile file) throws IOException {
             File convFile = new File(file.getOriginalFilename());
             convFile.createNewFile();
@@ -43,6 +39,10 @@ public class CloudinaryServiceImpl implements CloudinaryService {
             fos.write(file.getBytes());
             fos.close();
             return convFile;
+    }
+    @Override
+    public Map delete(String id) throws IOException {
+        return cloudinary.uploader().destroy(id, ObjectUtils.emptyMap());
     }
 
 }

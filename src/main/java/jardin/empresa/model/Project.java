@@ -28,9 +28,6 @@ public class Project {
 
     private String biography;
 
-    private String mission;
-
-    private String vision;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
