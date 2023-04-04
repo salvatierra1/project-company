@@ -13,9 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @RestController
@@ -33,8 +30,8 @@ public class GalleryController {
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
     public ResponseEntity<?>upload(
-            @RequestPart Gallery gallery,
-            @RequestPart MultipartFile multipartFile
+            @RequestPart(value = "data_gallery") Gallery gallery,
+            @RequestPart(value = "image") MultipartFile multipartFile
             ) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(gallery, multipartFile));
     }
