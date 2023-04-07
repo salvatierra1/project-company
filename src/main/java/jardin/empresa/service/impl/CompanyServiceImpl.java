@@ -1,6 +1,7 @@
 package jardin.empresa.service.impl;
 
 import jardin.empresa.DTO.CompanyDTO;
+import jardin.empresa.exception.NotFoundException;
 import jardin.empresa.mapper.CompanyMapper;
 import jardin.empresa.model.Company;
 import jardin.empresa.repository.CompanyRepository;
@@ -8,9 +9,14 @@ import jardin.empresa.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -18,10 +24,14 @@ public class CompanyServiceImpl implements CompanyService {
     private CompanyRepository companyRepository;
     @Autowired
     private CompanyMapper companyMapper;
+
+    @Autowired
+    private CloudinaryServiceImpl cloudinaryService;
+
     @Override
-    public CompanyDTO save(CompanyDTO companyDTO) {
-        Company company = companyMapper.dtoToEntity(companyDTO);
-        Company saved = companyRepository.save(company);
+    public CompanyDTO save(CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
+            Company company = companyMapper.dtoToEntity(companyDTO, multipartFile);
+            Company saved = companyRepository.save(company);
         return companyMapper.entityToDto(saved);
     }
     @Override
@@ -31,14 +41,15 @@ public class CompanyServiceImpl implements CompanyService {
         return companyMapper.entityToDto(company);
     }
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws IOException {
         Company company = companyRepository.findById(id).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Map result = cloudinaryService.delete(company.getImageId());
         companyRepository.delete(company);
     }
     @Override
-    public CompanyDTO put(Long id, CompanyDTO companyDTO) {
-        Company company = companyMapper.updateEntity(id, companyDTO);
+    public CompanyDTO put(Long id, CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
+        Company company = companyMapper.updateEntity(id, companyDTO, multipartFile);
         Company saved = companyRepository.save(company);
         return companyMapper.entityToDto(saved);
     }

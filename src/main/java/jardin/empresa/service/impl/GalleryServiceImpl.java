@@ -1,6 +1,8 @@
 package jardin.empresa.service.impl;
 
+import jardin.empresa.DTO.GalleryDTO;
 import jardin.empresa.exception.NotFoundException;
+import jardin.empresa.mapper.GalleryMapper;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.repository.GalleryRepository;
 import jardin.empresa.service.GalleryService;
@@ -14,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
@@ -27,22 +28,19 @@ public class GalleryServiceImpl implements GalleryService {
 
     private static final int SIZE_TEN = 10;
     @Autowired
-    CloudinaryServiceImpl cloudinaryService;
+    private CloudinaryServiceImpl cloudinaryService;
+
+    @Autowired
+    private GalleryMapper galleryMapper;
     @Override
-    @Transactional
-    public Gallery save(Gallery gallery, MultipartFile multipartFile) throws IOException {
+    public GalleryDTO save(GalleryDTO galleryDTO, MultipartFile multipartFile) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
         if(bi == null){
            throw new NotFoundException("invalid image");
         }
-        Map result = cloudinaryService.upload(multipartFile);
-        Gallery gallery1 = new Gallery();
-        gallery1.setName((String)result.get("original_filename"));
-        gallery1.setImageUrl((String)result.get("url"));
-        gallery1.setImageId((String)result.get("public_id"));
-        gallery1.setDescription(gallery.getDescription());
-        gallery1.setAlternative(gallery.getAlternative());
-        return galleryRepository.save(gallery1);
+        Gallery gallery = galleryMapper.dtoToEntity(galleryDTO, multipartFile);
+        Gallery saved = galleryRepository.save(gallery);
+        return galleryMapper.entityToDto(saved);
     }
     @Override
     public Page<Gallery> page(Pageable pageable) {

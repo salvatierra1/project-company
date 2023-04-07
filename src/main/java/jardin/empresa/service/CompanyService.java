@@ -1,13 +1,15 @@
 package jardin.empresa.service;
 
 import jardin.empresa.DTO.CompanyDTO;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface CompanyService {
-    CompanyDTO save(CompanyDTO companyDTO);
+    CompanyDTO save(CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException;
     CompanyDTO get(Long id);
-    void delete(Long id);
-    CompanyDTO put(Long id, CompanyDTO companyDTO);
+    void delete(Long id) throws IOException;
+    CompanyDTO put(Long id, CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException;
     List<CompanyDTO> getList();
 }

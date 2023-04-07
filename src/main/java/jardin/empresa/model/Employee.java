@@ -1,6 +1,7 @@
 package jardin.empresa.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
@@ -21,6 +22,8 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String imageId;
+
     private String name;
 
     private String last_name;
@@ -29,7 +32,7 @@ public class Employee {
 
     private String biography;
 
-    private String image;
+    private String imageUrl;
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

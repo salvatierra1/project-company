@@ -1,5 +1,6 @@
 package jardin.empresa.controller;
 
+import jardin.empresa.DTO.GalleryDTO;
 import jardin.empresa.DTO.MessageDTO;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.service.GalleryService;
@@ -29,11 +30,11 @@ public class GalleryController {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?>upload(
-            @RequestPart(value = "data_gallery") Gallery gallery,
+    public ResponseEntity<GalleryDTO>create(
+            @RequestPart(value = "data_gallery") GalleryDTO galleryDTO,
             @RequestPart(value = "image") MultipartFile multipartFile
             ) throws IOException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(gallery, multipartFile));
+        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(galleryDTO, multipartFile));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(
