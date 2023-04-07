@@ -47,17 +47,21 @@ public class EmployeeMapper {
         return employeeDTO;
     }
     public Employee updateEntity(Long id, EmployeeDTO employeeDTO, MultipartFile multipartFile) throws IOException {
-        Employee employee = employeeRepository.findById(id).orElseThrow(()->
+        Employee employee = employeeRepository.findById(id).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Map delete = cloudinaryService.delete(employee.getImageId());
-        Map result = cloudinaryService.upload(multipartFile);
+        if (multipartFile != null) {
+            Map result = cloudinaryService.upload(multipartFile);
+            Map delete = cloudinaryService.delete(employee.getImageId());
+            employee.setImageId((String) result.get(("public_id")));
+            employee.setImageUrl((String) result.get(("url")));
+        }
         employee.setName(employeeDTO.getName());
         employee.setName(employeeDTO.getName());
         employee.setLast_name(employeeDTO.getLast_name());
         employee.setTitle(employeeDTO.getTitle());
         employee.setBiography(employeeDTO.getBiography());
-        employee.setImageId((String)result.get("public_id"));
-        employee.setImageUrl((String)result.get("url"));
+        employee.setImageId(employee.getImageId());
+        employee.setImageUrl(employee.getImageUrl());
         return employee;
     }
     public List<EmployeeDTO> listEntityDto(List<Employee> listEmployees) {
