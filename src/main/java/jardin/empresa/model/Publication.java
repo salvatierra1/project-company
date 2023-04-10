@@ -6,7 +6,6 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -22,9 +21,13 @@ public class Publication {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String biography;
+    private String imageId;
 
-    private String image;
+    private String imageUrl;
+
+    private String title;
+
+    private String biography;
 
     private boolean relevant;
 

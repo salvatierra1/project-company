@@ -1,5 +1,4 @@
 package jardin.empresa.mapper;
-
 import jardin.empresa.DTO.CompanyDTO;
 import jardin.empresa.model.Company;
 import jardin.empresa.repository.CompanyRepository;
@@ -9,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -17,13 +15,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class CompanyMapper {
-
     @Autowired
     private CompanyRepository companyRepository;
-
     @Autowired
     private CloudinaryServiceImpl cloudinaryService;
-
     public Company dtoToEntity(CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
         Map result = cloudinaryService.upload(multipartFile);
         Company company = new Company();
@@ -65,8 +60,12 @@ public class CompanyMapper {
     public Company updateEntity(Long id, CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
         Company company = companyRepository.findById(id).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
-        Map delete = cloudinaryService.delete(company.getImageId());
-        Map result = cloudinaryService.upload(multipartFile);
+        if (multipartFile != null) {
+            Map result = cloudinaryService.upload(multipartFile);
+            Map delete = cloudinaryService.delete(company.getImageId());
+            company.setImageId((String) result.get(("public_id")));
+            company.setImageUrl((String) result.get(("url")));
+        }
         company.setName(companyDTO.getName());
         company.setBiography(companyDTO.getBiography());
         company.setResolution(companyDTO.getResolution());
@@ -74,8 +73,8 @@ public class CompanyMapper {
         company.setSchedules(companyDTO.getSchedules());
         company.setPhone(companyDTO.getPhone());
         company.setEmail(companyDTO.getEmail());
-        company.setImageId((String)result.get("public_id"));
-        company.setImageUrl((String)result.get("url"));
+        company.setImageId(company.getImageId());
+        company.setImageUrl(company.getImageUrl());
         company.setLinkIg(companyDTO.getLinkIg());
         company.setLinkFb(companyDTO.getLinkFb());
         company.setLinkLk(companyDTO.getLinkLk());

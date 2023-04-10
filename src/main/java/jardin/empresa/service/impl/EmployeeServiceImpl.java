@@ -1,7 +1,7 @@
 package jardin.empresa.service.impl;
 
 import jardin.empresa.DTO.EmployeeDTO;
-import jardin.empresa.exception.NotFoundException;
+import jardin.empresa.exception.GenericException;
 import jardin.empresa.mapper.EmployeeMapper;
 import jardin.empresa.model.Employee;
 import jardin.empresa.repository.EmployeeRepository;
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -30,8 +29,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDTO save(EmployeeDTO employeeDTO, MultipartFile multipartFile) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-            throw new NotFoundException("invalid image");
+        if (bi == null){
+            throw new GenericException("Image no acceptable", HttpStatus.NOT_ACCEPTABLE);
         }
         Employee employee = employeeMapper.dtoToEntity(employeeDTO, multipartFile);
         Employee saved = employeeRepository.save(employee);
@@ -39,14 +38,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
     @Override
     public EmployeeDTO get(Long id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow(()->
-                new ResponseStatusException(HttpStatus.NOT_FOUND));
-        return employeeMapper.entityToDto(employee);
+            Employee employee = employeeRepository.findById(id).orElseThrow();
+            return employeeMapper.entityToDto(employee);
     }
     @Override
     public void delete(Long id) throws IOException {
-        Employee employee = employeeRepository.findById(id).orElseThrow(()->
-                new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Employee employee = employeeRepository.findById(id).orElseThrow();
         Map result = cloudinaryService.delete(employee.getImageId());
         employeeRepository.delete(employee);
     }

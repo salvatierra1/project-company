@@ -2,7 +2,6 @@ package jardin.empresa.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import jardin.empresa.exception.NotFoundException;
 import jardin.empresa.service.CloudinaryService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,7 +1,7 @@
 package jardin.empresa.service.impl;
 
 import jardin.empresa.DTO.CompanyDTO;
-import jardin.empresa.exception.NotFoundException;
+import jardin.empresa.exception.GenericException;
 import jardin.empresa.mapper.CompanyMapper;
 import jardin.empresa.model.Company;
 import jardin.empresa.repository.CompanyRepository;
@@ -30,6 +30,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDTO save(CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
+            BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
+            if (bi == null){
+                throw new GenericException("Image no acceptable", HttpStatus.NOT_ACCEPTABLE);
+            }
             Company company = companyMapper.dtoToEntity(companyDTO, multipartFile);
             Company saved = companyRepository.save(company);
         return companyMapper.entityToDto(saved);

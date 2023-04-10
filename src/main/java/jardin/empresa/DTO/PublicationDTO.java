@@ -1,18 +1,22 @@
 package jardin.empresa.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PublicationDTO {
 
     private Long id;
 
-    private String biography;
+    private String imageId;
 
-    private String image;
+    private String title;
+
+    private String imageUrl;
+
+    private String biography;
 
     private boolean relevant;
 

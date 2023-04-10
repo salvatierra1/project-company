@@ -1,7 +1,7 @@
 package jardin.empresa.service.impl;
 
 import jardin.empresa.DTO.GalleryDTO;
-import jardin.empresa.exception.NotFoundException;
+import jardin.empresa.exception.GenericException;
 import jardin.empresa.mapper.GalleryMapper;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.repository.GalleryRepository;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -35,8 +33,8 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public GalleryDTO save(GalleryDTO galleryDTO, MultipartFile multipartFile) throws IOException {
         BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
-        if(bi == null){
-           throw new NotFoundException("invalid image");
+        if (bi == null){
+            throw new GenericException("Image no acceptable", HttpStatus.NOT_ACCEPTABLE);
         }
         Gallery gallery = galleryMapper.dtoToEntity(galleryDTO, multipartFile);
         Gallery saved = galleryRepository.save(gallery);
@@ -48,8 +46,7 @@ public class GalleryServiceImpl implements GalleryService {
     }
     @Override
     public void delete(Long id) throws IOException {
-        Gallery gallery = galleryRepository.findById(id).orElseThrow(()
-                -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Gallery gallery = galleryRepository.findById(id).orElseThrow();
         Map result = cloudinaryService.delete(gallery.getImageId());
         galleryRepository.delete(gallery);
     }

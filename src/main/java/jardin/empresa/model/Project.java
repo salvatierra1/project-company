@@ -1,12 +1,9 @@
 package jardin.empresa.model;
-
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -22,12 +19,13 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String imageId;
+
+    private String imageUrl;
+
     private String name;
 
-    private String image;
-
     private String biography;
-
 
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")

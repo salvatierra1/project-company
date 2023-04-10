@@ -5,11 +5,8 @@ import jardin.empresa.model.Employee;
 import jardin.empresa.repository.EmployeeRepository;
 import jardin.empresa.service.impl.CloudinaryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +17,6 @@ public class EmployeeMapper {
 
     @Autowired
     private EmployeeRepository employeeRepository;
-
     @Autowired
     private CloudinaryServiceImpl cloudinaryService;
 
@@ -35,7 +31,6 @@ public class EmployeeMapper {
         employee.setImageUrl((String)result.get("url"));
         return employee;
     }
-
     public EmployeeDTO entityToDto(Employee saved) {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(saved.getId());
@@ -47,8 +42,7 @@ public class EmployeeMapper {
         return employeeDTO;
     }
     public Employee updateEntity(Long id, EmployeeDTO employeeDTO, MultipartFile multipartFile) throws IOException {
-        Employee employee = employeeRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND));
+        Employee employee = employeeRepository.findById(id).orElseThrow();
         if (multipartFile != null) {
             Map result = cloudinaryService.upload(multipartFile);
             Map delete = cloudinaryService.delete(employee.getImageId());
