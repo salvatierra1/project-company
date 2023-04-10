@@ -1,5 +1,6 @@
 package jardin.empresa.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
@@ -13,11 +14,14 @@ public class Gallery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonIgnore
+    private String imageId;
+
+    @JsonIgnore
     private String name;
 
     private String imageUrl;
-
-    private String imageId;
 
     private String description;
 

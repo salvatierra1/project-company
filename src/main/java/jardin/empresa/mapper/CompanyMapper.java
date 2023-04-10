@@ -1,23 +1,26 @@
 package jardin.empresa.mapper;
-
 import jardin.empresa.DTO.CompanyDTO;
 import jardin.empresa.model.Company;
 import jardin.empresa.repository.CompanyRepository;
+import jardin.empresa.service.impl.CloudinaryServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
 public class CompanyMapper {
-
     @Autowired
     private CompanyRepository companyRepository;
-
-    public Company dtoToEntity(CompanyDTO companyDTO) {
+    @Autowired
+    private CloudinaryServiceImpl cloudinaryService;
+    public Company dtoToEntity(CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
+        Map result = cloudinaryService.upload(multipartFile);
         Company company = new Company();
         company.setName(companyDTO.getName());
         company.setBiography(companyDTO.getBiography());
@@ -26,7 +29,8 @@ public class CompanyMapper {
         company.setSchedules(companyDTO.getSchedules());
         company.setPhone(companyDTO.getPhone());
         company.setEmail(companyDTO.getEmail());
-        company.setImage(companyDTO.getImage());
+        company.setImageId((String)result.get("public_id"));
+        company.setImageUrl((String)result.get("url"));
         company.setLinkIg(companyDTO.getLinkIg());
         company.setLinkFb(companyDTO.getLinkFb());
         company.setLinkLk(companyDTO.getLinkLk());
@@ -44,7 +48,7 @@ public class CompanyMapper {
         dto.setSchedules(saved.getSchedules());
         dto.setPhone(saved.getPhone());
         dto.setEmail(saved.getEmail());
-        dto.setImage(saved.getImage());
+        dto.setImageUrl(saved.getImageUrl());
         dto.setLinkIg(saved.getLinkIg());
         dto.setLinkFb(saved.getLinkFb());
         dto.setLinkLk(saved.getLinkLk());
@@ -53,9 +57,15 @@ public class CompanyMapper {
         return dto;
     }
 
-    public Company updateEntity(Long id, CompanyDTO companyDTO) {
+    public Company updateEntity(Long id, CompanyDTO companyDTO, MultipartFile multipartFile) throws IOException {
         Company company = companyRepository.findById(id).orElseThrow(()->
                 new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if (multipartFile != null) {
+            Map result = cloudinaryService.upload(multipartFile);
+            Map delete = cloudinaryService.delete(company.getImageId());
+            company.setImageId((String) result.get(("public_id")));
+            company.setImageUrl((String) result.get(("url")));
+        }
         company.setName(companyDTO.getName());
         company.setBiography(companyDTO.getBiography());
         company.setResolution(companyDTO.getResolution());
@@ -63,7 +73,8 @@ public class CompanyMapper {
         company.setSchedules(companyDTO.getSchedules());
         company.setPhone(companyDTO.getPhone());
         company.setEmail(companyDTO.getEmail());
-        company.setImage(companyDTO.getImage());
+        company.setImageId(company.getImageId());
+        company.setImageUrl(company.getImageUrl());
         company.setLinkIg(companyDTO.getLinkIg());
         company.setLinkFb(companyDTO.getLinkFb());
         company.setLinkLk(companyDTO.getLinkLk());

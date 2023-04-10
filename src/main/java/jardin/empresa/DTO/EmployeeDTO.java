@@ -1,11 +1,15 @@
 package jardin.empresa.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeDTO {
 
     private Long id;
+
+    private String imageId;
 
     private String name;
 
@@ -15,5 +19,5 @@ public class EmployeeDTO {
 
     private String biography;
 
-    private String image;
+    private String imageUrl;
 }

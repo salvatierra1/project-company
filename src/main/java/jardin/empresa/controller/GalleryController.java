@@ -1,6 +1,6 @@
 package jardin.empresa.controller;
 
-import jardin.empresa.DTO.MessageDTO;
+import jardin.empresa.DTO.GalleryDTO;
 import jardin.empresa.model.Gallery;
 import jardin.empresa.service.GalleryService;
 import jardin.empresa.service.impl.CloudinaryServiceImpl;
@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.Valid;
 import java.io.IOException;
 
 @RestController
@@ -29,11 +31,11 @@ public class GalleryController {
             consumes = {MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE}
     )
-    public ResponseEntity<?>upload(
-            @RequestPart(value = "data_gallery") Gallery gallery,
+    public ResponseEntity<GalleryDTO>create(
+            @Valid @RequestPart(value = "data_gallery") GalleryDTO galleryDTO,
             @RequestPart(value = "image") MultipartFile multipartFile
             ) throws IOException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(gallery, multipartFile));
+        return ResponseEntity.status(HttpStatus.CREATED).body(galleryService.save(galleryDTO, multipartFile));
     }
     @GetMapping("/page")
     public ResponseEntity<Page<Gallery>> page(
@@ -50,8 +52,8 @@ public class GalleryController {
         return ResponseEntity.status(HttpStatus.OK).body(galleries);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<?>delete(@PathVariable Long id) throws IOException {
-        galleryService.delete(id);
+    public ResponseEntity<?>delete(@PathVariable String id) throws IOException {
+        galleryService.delete(Long.valueOf(id));
         return  ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

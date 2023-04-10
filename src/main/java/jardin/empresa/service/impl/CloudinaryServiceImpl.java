@@ -33,12 +33,12 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     @Override
     public File covert(MultipartFile file) throws IOException {
-            File convFile = new File(file.getOriginalFilename());
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
-            return convFile;
+        File convFile = new File(file.getOriginalFilename());
+        convFile.createNewFile();
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
     @Override
     public Map delete(String id) throws IOException {
