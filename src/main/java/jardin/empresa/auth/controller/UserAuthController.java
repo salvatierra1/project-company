@@ -22,7 +22,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "https://portfolio-8d6ba.web.app")
+@CrossOrigin(origins = "*")
 public class UserAuthController {
 
     private UserDetailsCustomService userDetailsService;
