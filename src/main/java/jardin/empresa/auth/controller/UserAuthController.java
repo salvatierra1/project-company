@@ -73,4 +73,9 @@ public class UserAuthController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PutMapping("pass")
+    public ResponseEntity<Void>recuperarPass(@RequestBody UserEntity userEntity){
+        userDetailsService.editPass(userEntity);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
